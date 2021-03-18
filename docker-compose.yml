@@ -1,21 +1,21 @@
 version: '3.7'
 services:
-   db:
-    image: mysql:5.7.22
+  db:
+    build: .
+    image: 'db'
     container_name: db
-    restart: unless-stopped
-    tty: true
+    restart: "always"
+    command: --default-authentication-plugin=mysql_native_password
     ports:
-      - "3306:3306"
+      - "3309:3309"
     environment:
+      MYSQL_USER: bd
+      MYSQL_ROOT_PASSWORD: arley2233
       MYSQL_DATABASE: facturacion
-      MYSQL_ROOT_PASSWORD: Abc123
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
+      MYSQL_PASSWORD: arley2233
     volumes:
-      - dbdata:/var/lib/mysql/
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
-      
+      - ./sql/facturacion.sql:/docker-entrypoint-initdb.d/facturacion.sql
+
   app:
     build:
       context: .
